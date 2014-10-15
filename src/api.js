@@ -6,6 +6,7 @@ var BookStore = require('./BookStore');
 var router = express.Router();
 var bookStore = new BookStore();
 bookStore.add('The Time Machine', function(){});
+bookStore.add('There and Back Again', function(){});
 
 router.route('/books')
 	.get(function(req, res) {

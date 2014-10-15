@@ -1,29 +1,60 @@
-/**
- * Example implementation will use an array instead
- * of a store.
- */
-var books = ['The Time Machine', 'Pride and prejudice'];
+function getTemplateText(cb) {
+	var xhr = new XMLHttpRequest();
 
-/**
- * Adds book element on the page
- */ 
-function addBook(title) {
-	var bookTemplate = document.getElementById('book-template').innerHTML;
-	var html = bookTemplate.replace('{{title}}', title);
+	xhr.onreadystatechange = function() {
+		if (xhr.readyState == 4) {
+			cb(xhr.responseText);
+		} 
+	};
 
-	var li = document.createElement('li');
-	li.innerHTML = html;
-
-	li.querySelector('.edit-button').addEventListener('click', function() {
-		console.log('edit');
-	});
-
-	li.querySelector('.delete-button').addEventListener('click', function() {
-		console.log('delete');
-	});
-
-	var ul = document.getElementById('book-list');
-	ul.appendChild(li);
+	xhr.open('GET', 'book.html');
+	xhr.send();	
 }
 
-books.forEach(addBook);
+function getBooks(cb) {
+	var xhr = new XMLHttpRequest();
+
+	xhr.onreadystatechange = function() {
+		if (xhr.readyState == 4) {
+			cb(JSON.parse(xhr.responseText));
+		} 
+	};
+
+	xhr.open('GET', '/api/books');
+	xhr.send();	
+}
+
+function addBook(title, template) {
+	template = template.replace('{{title}}', title);
+
+	var el = document.createElement('li');
+	el.innerHTML = template;
+
+	var parent = document.getElementById('book-list');
+	parent.appendChild(el);
+}
+
+getBooks(function(books) {
+	getTemplateText(function(template) {
+		books.forEach(function(book) {
+			addBook(book.title, template);
+		});
+	});
+});
+
+/*
+
+TODO
+
+function onBooksReceived(books) {
+	getTemplateText(onTemplateTextReceived);
+}
+
+function onTemplateTextReceived(text) {
+	books.forEach(function(book) {
+		addBook(book.title, text);
+	});
+}
+
+getBooks(onBooksReceived);
+*/
