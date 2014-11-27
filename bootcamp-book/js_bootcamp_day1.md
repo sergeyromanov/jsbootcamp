@@ -664,11 +664,11 @@ for (var i = 0; i < text.length; i++) {
 
 ```
 
-In the next example, we decide to skip odd iterations, and we'll use `continue` to do that.
+In the next example, we decide to skip even iterations, and we'll use `continue` to do that.
 
 ```
 for (var i = 0; i < text.length; i++) {
-	if (num % 2 === 0) {
+	if (i % 2 === 0) {
 		// we only want odd indices, skip even characters
 		continue;
 	}
@@ -896,7 +896,7 @@ You can access the numbers by index with square bracket syntax, just like for ob
 console.log(arr[0]);
 ```
 
-The index of array is zero-based, meaning that the first element will have idex `0`, second element - index `1`, and so, just like characters in string. And similarly to string, an array has a property `length` that tells how many elements are there:
+The index of array is zero-based, meaning that the first element will have index `0`, second element - index `1`, and so on, just like characters in string. And similarly to string, an array has a property `length` that tells how many elements are there:
 
 ```
 console.log(arr.length);
@@ -958,7 +958,7 @@ The other common operation is finding an element in an array, the `indexOf` func
 ```
 // Look for the string 'John', skip
 // first three elements
-console.log(arr.indexOf('John'), 3)
+console.log(arr.indexOf('John', 3));
 ```
 
 Remember: array is zero-based just like a string, so the index of the first element is 0.
@@ -1059,7 +1059,7 @@ var obj = {
 }
 ```
 
-And if this is valid, how would you distinguish between an object property that does not exist, versus a propoerty that exists, but its value is undefined? You can use `in` operator that we described earlier. So the following check will tell you if the property exists:
+And if this is valid, how would you distinguish between an object property that does not exist, versus a property that exists, but its value is undefined? You can use `in` operator that we described earlier. So the following check will tell you if the property exists:
 
 ```
 if ('age' in obj) {
@@ -1069,11 +1069,13 @@ if ('age' in obj) {
 
 The code below by contrast checks if the property is `undefined` OR it does not exist. 
 
+```
 if (obj.age === undefined) {
 	console.log('Age is undefined');
 } else {
 	console.log('Age is defined');
 }
+```
 
 As you see, we use triple equals sign to filter out `null` values. So if property is `null`, this check will not pass, and the code will print 'Age is defined'.
 
@@ -1122,7 +1124,7 @@ user.picture = null;
 `Null` is a very simple data type. The only caveat is that JavaScript will report `null` as 'object' if you use a `typeof` operator, even though the type of `null` is `Null`:
 
 ```
-typeof null
+console.log(typeof null); // prints 'object'
 ```
 
 This behavior exists for legacy reasons.
